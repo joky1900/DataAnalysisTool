@@ -79,6 +79,24 @@ public class FileData {
     }
 
     public String toString(){
-        return ballData + "\n" + gazeData;
+        // ballX, ballY, ballTimestamp, gazeX, gazeY, gazeTimeStamp
+
+        StringBuilder text = new StringBuilder();
+
+        for(Data data : ballData){
+            double timeStamp = data.getTimeStamp();
+            int index = 0;
+
+            for(int j = 0; j < gazeData.size(); ++j){
+                if(gazeData.get(j).getTimeStamp() < timeStamp){
+                    index = j;
+                }else{
+                    break;
+                }
+            }
+
+            text.append(data.getX()).append(",").append(data.getY()).append(",").append(data.getTimeStamp()).append(",").append(gazeData.get(index).getX()).append(",").append(gazeData.get(index).getY()).append(",").append(gazeData.get(index).getTimeStamp()).append("\n");
+        }
+        return text.toString();
     }
 }

@@ -22,7 +22,9 @@ public class FileSaver {
     }
 
     private void saveFile() throws IOException {
-        writer.write("point,distance\n");
+        // ballX, ballY, ballTimestamp, gazeX, gazeY, gazeTimeStamp
+        writer.write("ballX, ballY, ballTimeStamp, gazeX, gazeY, gazeTimeStamp\n");
+        writer.write(data);
 /*
         for(double[] arr : data){
             writer.write(arr[0] + "," + arr[1] + "\n");

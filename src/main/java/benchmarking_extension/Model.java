@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import benchmarking_extension.GUI.FileSaver;
 import benchmarking_extension.data.Data;
 import benchmarking_extension.data.FileData;
 import org.json.simple.JSONObject;
@@ -51,11 +52,13 @@ public class Model {
         // Initialize array
         double[][] data = new double[subjectData.size()][2];
 
+        double startTime = subjectData.get(0).getTimeStamp();
+
         // Iterate over each coordinate
         for(int i = 0; i < subjectData.size(); ++i){
             int x = subjectData.get(i).getX();
             int y = subjectData.get(i).getY();
-            double timeStamp = subjectData.get(i).getTimeStamp();
+            double timeStamp = subjectData.get(i).getTimeStamp() - startTime;
 
             // Populate array
             data[i][0] = timeStamp;
@@ -120,13 +123,27 @@ public class Model {
         ArrayList<Data> gazeData = file.getGazeData();
         ArrayList<Data> ballData = file.getBallData();
 
-        int length = Math.min(ballData.size(), gazeData.size()); // get shortest
+    //    int length = Math.min(ballData.size(), gazeData.size()); // get shortest
 
-        double[][] data = new double[length][2];
+        double[][] data = new double[ballData.size()][2];
 
-        for(int i = 0; i < length; ++i){
-            data[i][1] = getDistance(ballData.get(i).getX(), ballData.get(i).getY(), gazeData.get(i).getX(), gazeData.get(i).getY());
-            data[i][0] = gazeData.get(i).getTimeStamp();
+        double startTime = ballData.get(0).getTimeStamp();
+        for(int i = 0; i < ballData.size(); ++i){
+
+            double timeStamp = ballData.get(i).getTimeStamp();
+            int index = 0;
+
+            for(int j = 0; j < gazeData.size(); ++j){
+                if(gazeData.get(j).getTimeStamp() < timeStamp){
+                    index = j;
+                }else{
+                    break;
+                }
+            }
+
+
+            data[i][1] = getDistance(ballData.get(i).getX(), ballData.get(i).getY(), gazeData.get(index).getX(), gazeData.get(index).getY());
+            data[i][0] = gazeData.get(i).getTimeStamp() - startTime;
         }
 
         return data;
@@ -135,10 +152,22 @@ public class Model {
     private double getAverageDistance(ArrayList<Data> gazeData, ArrayList<Data> ballData){
         int length = Math.min(ballData.size(), gazeData.size()); // get shortest
 
+        System.out.println(gazeData.get(10));
+
         int total = 0;
 
         for(int i = 0; i < length; ++i){
-            total += getDistance(ballData.get(i).getX(), ballData.get(i).getY(), gazeData.get(i).getX(), gazeData.get(i).getY());
+            double timeStamp = ballData.get(i).getTimeStamp();
+            int index = 0;
+
+            for(int j = 0; j < gazeData.size(); ++j){
+                if(gazeData.get(j).getTimeStamp() < timeStamp){
+                    index = j;
+                }else{
+                    break;
+                }
+            }
+            total += getDistance(ballData.get(i).getX(), ballData.get(i).getY(), gazeData.get(index).getX(), gazeData.get(index).getY());
         }
 
         return (double) total / length;
@@ -193,7 +222,8 @@ public class Model {
             stringBuilder.append(fileData);
         }
 
-       // new FileSaver(stringBuilder);
+        //System.out.println(stringBuilder);
+        new FileSaver(stringBuilder.toString());
     }
 
     /**
