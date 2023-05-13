@@ -44,7 +44,7 @@ public abstract class Graph extends JPanel {
     //-------------------------------------------------------------------------
     public void setColor(Color color) {
        // chart.setBackgroundPaint(color);
-        chart.getPlot().setBackgroundPaint(color);
+      //  chart.getPlot().setBackgroundPaint(color);
         this.color = color;
     }
 
@@ -60,7 +60,7 @@ public abstract class Graph extends JPanel {
     }
 
     public void setTitle(String title){
-
+        this.title = title;
     }
 
     protected abstract void setupGUI();

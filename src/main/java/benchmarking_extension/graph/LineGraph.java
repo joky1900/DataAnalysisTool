@@ -5,11 +5,14 @@ import benchmarking_extension.Controller;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.time.MovingAverage;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
@@ -43,7 +46,9 @@ public class LineGraph extends Graph{
         super(title, xAxisLabel, yAxisLabel, orientation);
         this.data = data;
         this.data2 = data2;
+
         setupGUI();
+        chart.getPlot().setBackgroundPaint(new Color(94, 171, 94));
     }
 
     /**
@@ -59,7 +64,7 @@ public class LineGraph extends Graph{
         this.data = data;
         average = true;
         setupGUI();
-
+        chart.getPlot().setBackgroundPaint(new Color(94, 171, 94));
     }
 
     /**
@@ -100,6 +105,57 @@ public class LineGraph extends Graph{
         add(chartPanel);
     }
 
+    /**
+     * Calculates the average value of the data array
+     * @return Double indicating the average value
+     */
+    private double getAverage(){
+        double total = 0;
+
+        for(double[] i : data){
+            total += i[1];
+        }
+
+        System.out.println(total/data.length);
+        return total / data.length;
+    }
+
+    private double getMin(){
+        double min = data[0][1];
+
+        for(double[] i : data){
+            if(i[1] < min){
+                min = i[1];
+            }
+        }
+
+        return min;
+    }
+
+    private double getMax(){
+        double max = data[0][1];
+
+        for(double[] i : data){
+            System.out.println("MAX: " + i[1]);
+            if(i[1] > max){
+                max = i[1];
+            }
+        }
+
+        return max;
+    }
+
+    private double getStandardDeviation(){
+        double standardDeviation = 0;
+        double average = getAverage();
+
+        for (double[] datum : data) {
+            standardDeviation += Math.pow(datum[1] - average, 2);
+        }
+
+        return Math.sqrt(standardDeviation / data.length);
+    }
+
 
     /**
      * Creates the {@link JFreeChart} object
@@ -114,23 +170,18 @@ public class LineGraph extends Graph{
 
         // Renderer for the benchmark
         renderer.setSeriesPaint(0, Color.BLACK);
-        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
         renderer.setSeriesShapesVisible(0, false);
 
         // Renderer for the moving average
         XYLineAndShapeRenderer renderer2 = new XYLineAndShapeRenderer();
-        renderer2.setSeriesPaint(0, Color.GREEN);
-        renderer2.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer2.setSeriesPaint(0, Color.RED);
+        renderer2.setSeriesStroke(0, new BasicStroke(3.0f));
         renderer2.setSeriesShapesVisible(0, false);
-
-        // Renderer for the moving average
-        renderer2.setSeriesPaint(1, Color.RED);
-        renderer2.setSeriesStroke(1, new BasicStroke(2.0f));
-        renderer2.setSeriesShapesVisible(1, false);
 
         // Renderer for the ball
         renderer.setSeriesPaint(1, Color.RED);
-        renderer.setSeriesStroke(1, new BasicStroke(4.0f));
+        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
         renderer.setSeriesShapesVisible(1, false);
 
         chart = ChartFactory.createXYLineChart(
@@ -157,8 +208,23 @@ public class LineGraph extends Graph{
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.BLACK);
 
+        // Moving average for average distance graph
+        if(average){
+            XYDataset movingAverage = MovingAverage.createMovingAverage(dataset, " Moving Average", 3 * 24 * 60 * 60 * 1000L, 0L);
+            plot.setDataset(1, movingAverage);
+            plot.setRenderer(1, renderer2);
+            plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+        }
+
+        System.out.println("Avg: " + getAverage() + " | SD: " + getStandardDeviation());
+
+        String title = data2 == null ? "Euclidean distance between benchmark and ball coordinates over time \n"
+                + "Avg: " + String.format("%.2f", getAverage()) + "| SD: "
+                + String.format("%.2f", getStandardDeviation())
+                + " | Min: " + getMin() + " | Max: " + getMax()
+                : Controller.getSet()
+                + "-coordinate over time";
         chart.getLegend().setFrame(BlockBorder.NONE);
-        String title = data2 == null ? "Average distance between benchmark and ball coordinate over time" : Controller.getSet() + "-coordinate over time";
 
         chart.setTitle(new TextTitle(title,
                         new Font("Serif", java.awt.Font.BOLD, 18)));

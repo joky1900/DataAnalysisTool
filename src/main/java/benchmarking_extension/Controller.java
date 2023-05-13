@@ -64,7 +64,7 @@ public final class Controller {
         Color color = GraphicalUserInterface.getBackgroundColor();
         switch (type) {
             case BAR -> {
-                GraphicalUserInterface.setGraph(new BarGraph("Average Distance Between Pixels",
+                GraphicalUserInterface.setGraph(new BarGraph("Euclidean Distance Between Pixels",
                         "", "Distance (pixel)", PlotOrientation.VERTICAL, model.getAverageDistance()));
             }
             case LINE -> updateLineGraph();

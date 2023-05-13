@@ -33,7 +33,11 @@ public class BarGraph extends Graph {
         super(title, xAxisLabel, yAxisLabel, orientation);
         this.data = data;
 
+        this.setTitle(title + "\nAvg: " + String.format("%.2f", getAverage()) + "| SD: " + String.format("%.2f", getStandardDeviation()));
+
         setupGUI();
+        //chart.getCategoryPlot().getRenderer().setSeriesPaint(0, Color.BLACK);
+        chart.getPlot().setBackgroundPaint(new Color(94, 171, 94));
     }
 
     /**
@@ -76,7 +80,19 @@ public class BarGraph extends Graph {
             total += i;
         }
 
+        System.out.println(total/data.length);
         return total / data.length;
+    }
+
+    private double getStandardDeviation(){
+        double standardDeviation = 0;
+        double average = getAverage();
+
+        for (double datum : data) {
+            standardDeviation += Math.pow(datum - average, 2);
+        }
+
+        return Math.sqrt(standardDeviation / data.length);
     }
 
     /**
