@@ -45,7 +45,8 @@ public class Menu extends JMenuBar {
         this.setLayout(new GridBagLayout());
         this.setBackground(new Color(22, 22, 22));
         this.colorChoice.setPreferredSize(new Dimension(50, 50));
-        this.changeColorSquare(new Color(255, 255, 255));
+     //   this.changeColorSquare(new Color(255, 255, 255));
+        this.changeColorSquare(new Color(94, 171, 94));
 
         // Menu items
         try {
@@ -201,7 +202,7 @@ public class Menu extends JMenuBar {
     private JPanel getColorSlider(final String color){
         int min = 0;
         int max = 255;
-        int init = 255;
+        int init =125;// 255;
 
         // Create and set up JSlider
         JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, init);

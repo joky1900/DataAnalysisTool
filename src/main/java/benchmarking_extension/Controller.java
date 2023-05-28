@@ -64,7 +64,7 @@ public final class Controller {
         Color color = GraphicalUserInterface.getBackgroundColor();
         switch (type) {
             case BAR -> {
-                GraphicalUserInterface.setGraph(new BarGraph("Euclidean Distance Between Pixels",
+                GraphicalUserInterface.setGraph(new BarGraph("Euclidean Distance Between Coordinates",
                         "", "Distance (pixel)", PlotOrientation.VERTICAL, model.getAverageDistance()));
             }
             case LINE -> updateLineGraph();
@@ -82,6 +82,7 @@ public final class Controller {
     private static void updateLineGraph(){
         Color color = GraphicalUserInterface.getBackgroundColor();
         double[][] data = model.getGazeData();
+
         double[][] data2 = model.getBallData();
         GraphicalUserInterface.setGraph(new LineGraph("X-Position Over Time",
                 "Time (ms)", "Pixel", PlotOrientation.VERTICAL, data, data2));

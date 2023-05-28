@@ -80,19 +80,24 @@ public class BarGraph extends Graph {
             total += i;
         }
 
-        System.out.println(total/data.length);
+        // Return average
         return total / data.length;
     }
 
+    /**
+     * Calculates the standard deviation for the data set
+     * @return standard deviation
+     */
     private double getStandardDeviation(){
-        double standardDeviation = 0;
+        double sum = 0;
         double average = getAverage();
 
-        for (double datum : data) {
-            standardDeviation += Math.pow(datum - average, 2);
+        for (double i : data) {
+            sum += Math.pow(i - average, 2);
         }
 
-        return Math.sqrt(standardDeviation / data.length);
+        // Return standard deviation
+        return Math.sqrt(sum / data.length);
     }
 
     /**

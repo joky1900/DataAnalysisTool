@@ -47,6 +47,9 @@ public class LineGraph extends Graph{
         this.data = data;
         this.data2 = data2;
 
+        if(data.length != 0) {
+            System.out.println("LAST DATA: " + data[data.length - 1][0] + " | " + data[data.length - 1][1]);
+        }
         setupGUI();
         chart.getPlot().setBackgroundPaint(new Color(94, 171, 94));
     }
@@ -62,6 +65,7 @@ public class LineGraph extends Graph{
     public LineGraph(String title, String xAxisLabel, String yAxisLabel, PlotOrientation orientation, double[][] data) {
         super(title, xAxisLabel, yAxisLabel, orientation);
         this.data = data;
+        System.out.println("LAST DATA: " + data[data.length - 1][0] + " | " + data[data.length - 1][1]);
         average = true;
         setupGUI();
         chart.getPlot().setBackgroundPaint(new Color(94, 171, 94));

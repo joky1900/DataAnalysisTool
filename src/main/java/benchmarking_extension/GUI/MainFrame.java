@@ -11,7 +11,7 @@ import javax.swing.*;
  * @since 2023-04-23
  */
 public class MainFrame extends JFrame {
-    private final String header = "Benchmarking Extension";
+    private final String header = "Data Analysis Tool";
 
     public MainFrame(final int width, final int height) {
         // default window-size.

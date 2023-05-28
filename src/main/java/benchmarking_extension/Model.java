@@ -123,18 +123,17 @@ public class Model {
         ArrayList<Data> gazeData = file.getGazeData();
         ArrayList<Data> ballData = file.getBallData();
 
-    //    int length = Math.min(ballData.size(), gazeData.size()); // get shortest
 
-        double[][] data = new double[ballData.size()][2];
+        double[][] data = new double[gazeData.size()][2];
 
-        double startTime = ballData.get(0).getTimeStamp();
-        for(int i = 0; i < ballData.size(); ++i){
+        double startTime = gazeData.get(0).getTimeStamp();
+        for(int i = 0; i < gazeData.size(); ++i){
 
-            double timeStamp = ballData.get(i).getTimeStamp();
+            double timeStamp = gazeData.get(i).getTimeStamp();
             int index = 0;
 
-            for(int j = 0; j < gazeData.size(); ++j){
-                if(gazeData.get(j).getTimeStamp() < timeStamp){
+            for(int j = 0; j < ballData.size(); ++j){
+                if(ballData.get(j).getTimeStamp() < timeStamp){
                     index = j;
                 }else{
                     break;
@@ -142,8 +141,9 @@ public class Model {
             }
 
 
-            data[i][1] = getDistance(ballData.get(i).getX(), ballData.get(i).getY(), gazeData.get(index).getX(), gazeData.get(index).getY());
+            data[i][1] = getDistance(ballData.get(index).getX(), ballData.get(index).getY(), gazeData.get(i).getX(), gazeData.get(i).getY());
             data[i][0] = gazeData.get(i).getTimeStamp() - startTime;
+            System.out.println(data[i][0]);
         }
 
         return data;
@@ -151,8 +151,6 @@ public class Model {
 
     private double getAverageDistance(ArrayList<Data> gazeData, ArrayList<Data> ballData){
         int length = Math.min(ballData.size(), gazeData.size()); // get shortest
-
-        System.out.println(gazeData.get(10));
 
         int total = 0;
 
