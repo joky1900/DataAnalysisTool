@@ -1,8 +1,8 @@
-# <font color="orange"> Data Analysis Tool for the Benchmarking Extension </font>
+# <font color="orange"> Data Analysis Tool</font>
 
 ##  <font color="green">About the tool: </font>
 
-This is a complementary tool to analyze data gathered from the benchmarking extension.
+This is a complementary tool to analyze data gathered from the [Benchmarking Extension](https://github.com/joky1900/BenchmarkingExtension).
 
 The benchmarking extension is designed to assess the accuracy of Eye-Tracking software.    
 It is an extension of the existing "EyesOnTheCode" program with benchmarking functionality,    
@@ -53,7 +53,8 @@ The below figure shows a summary of the menu choices.
 ````
 |--- Menu
 |   |--- Choose Files
-            - Selects file a file manager
+            - Selects file a file manager.
+            - Make sure to include both "XXXballCoordinates.json" and "XXXballTracing.json"
 |   |--- Subject 
             - Currently selected test subject
             - 0, 1, 2 ...
