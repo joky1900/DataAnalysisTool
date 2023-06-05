@@ -46,8 +46,37 @@ tests.
 
 ![alt text](images/random.png)
 
+## <font color="green">Menu</font>
 
-## <font color="green">License: </font>
+The below figure shows a summary of the menu choices.
+
+````
+|--- Menu
+|   |--- Choose Files
+            - Selects file a file manager
+|   |--- Subject 
+            - Currently selected test subject
+            - 0, 1, 2 ...
+|   |--- Set 
+            - Change data set
+            - X, Y or Avg
+|   |--- Graph Type 
+            - Bar Chart or Line hart
+            - Bar or Line
+|   |--- Size 
+            - Change x and y-axis font size
+|   |--- RGB 
+            - Background color sliders
+|   |--- Clear 
+            - Clear all data 
+|   |--- Save to CSV 
+            - Save currently selected data to CSV
+|   |--- Save to Image 
+            - Save current graph to .png
+````   
+
+
+## <font color="green">License </font>
 
 The source code is published on GitHub, under the GNU General Public License,    
 and is accessible for free. We appreciate any feedback or suggestions you may have.   
